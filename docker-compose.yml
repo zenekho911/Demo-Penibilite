@@ -1,0 +1,137 @@
+networks:
+  demo-penibilite-network:
+    driver: bridge
+    
+    
+services:
+
+
+#****************************************************************************************************************************************************************************************
+#********************************************************************  Databases CONTAINERS  ***************************************************************************************
+#****************************************************************************************************************************************************************************************
+ db-backend-penibilite:
+  image: mysql:8.4.2-oraclelinux9
+  container_name: db-backend-penibilite
+  restart: always
+  ports:
+   - '3306:3306'
+  expose:
+   - '3306'
+  healthcheck:
+   test: ["CMD", "mysqladmin", "-uroot", "-p$$MYSQL_ROOT_PASSWORD", "ping", "-h", "localhost"]
+   interval: 10s
+   retries: 180
+  environment:
+   MYSQL_ROOT_PASSWORD: dbBackendPenibilite2025
+   MYSQL_DATABASE: db_backend_penibilite
+  volumes:
+   - ./databases/db-backend-penibilite-data:/var/lib/mysql
+  networks:
+   - demo-penibilite-network
+   
+#***********************************************************************************
+ db-keycloak-penibilite:
+  image: mysql:8.4.2-oraclelinux9
+  container_name: db-keycloak-penibilite
+  restart: always
+  ports:
+   - '3307:3306'
+  expose:
+   - '3307'
+  healthcheck:
+   test: ["CMD", "mysqladmin", "-uroot", "-p$$MYSQL_ROOT_PASSWORD", "ping", "-h", "localhost"]
+   interval: 10s
+   retries: 180
+  environment:
+   MYSQL_DATABASE: db_keycloak_penibilite
+   MYSQL_USER: kc_user
+   MYSQL_PASSWORD: kc_pass_user
+   MYSQL_ROOT_PASSWORD: dbKeycloakPenibilite2025
+  volumes:
+   - ./databases/db-keycloak-penibilite-data:/var/lib/mysql
+  networks:
+   - demo-penibilite-network
+
+
+#****************************************************************************************************************************************************************************************#
+#****************************************************************  Back-Front-Auth CONTAINERS  ***************************************************************************************#
+#****************************************************************************************************************************************************************************************#
+ keycloak-penibilite:
+  image: quay.io/keycloak/keycloak:25.0
+  container_name: keycloak-penibilite
+  environment:
+   KC_DB: mysql
+   KC_DB_URL: jdbc:mysql://db-keycloak-penibilite:3306/db_keycloak_penibilite
+   KC_DB_USERNAME: kc_user
+   KC_DB_PASSWORD: kc_pass_user
+   KC_HTTP_ENABLED: "true"
+   KC_HOSTNAME_STRICT_HTTPS: "false"
+   KC_HOSTNAME_STRICT: "false"
+   KEYCLOAK_ADMIN: demoadmin
+   KEYCLOAK_ADMIN_PASSWORD: demoadmin
+   KC_HEALTH_ENABLED: "true"
+  command: ["start-dev", "--import-realm"]
+  restart: always
+  ports:
+   - '8080:8080'
+  expose:
+   - '8080'
+  healthcheck:
+   test: ["CMD-SHELL", "timeout 5 bash -c '</dev/tcp/localhost/8080' || exit 1"]
+   interval: 10s
+   retries: 180
+  depends_on:
+   db-keycloak-penibilite:
+    condition: service_healthy
+   db-backend-penibilite:
+    condition: service_healthy
+  volumes:
+   - ./keycloak/demo-penibilite-realm.json:/opt/keycloak/data/import/demo-penibilite-realm.json
+  networks:
+   - demo-penibilite-network
+   
+#*******************************************************************************************
+ backend-penibilite:
+  build: ./backend
+  container_name: backend-penibilite
+  restart: on-failure
+  ports:
+   - '8087:8081'
+  expose:
+   - '8087'
+  healthcheck:
+   test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+   interval: 10s
+   retries: 180
+  environment:
+   - SPRING_DATASOURCE_URL=jdbc:mysql://db-backend-penibilite:3306/db_backend_penibilite?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+   - SPRING_DATASOURCE_USERNAME=root
+   - SPRING_DATASOURCE_PASSWORD=dbBackendPenibilite2025
+   - JWT_ISSUER_URI=http://keycloak-penibilite:8080/realms/demo-penibilite
+   - JWT_JWK_SET_URI=http://keycloak-penibilite:8080/realms/demo-penibilite/protocol/openid-connect/certs
+  depends_on:
+   keycloak-penibilite:
+    condition: service_healthy
+  networks:
+   - demo-penibilite-network
+     
+#*******************************************************************************************
+
+
+ frontend-penibilite:
+  build: ./frontend
+  container_name: frontend-penibilite
+  restart: always
+  ports:
+   - '4200:80'
+  expose:
+   - '4200'
+  healthcheck:
+   test: ["CMD", "curl", "-f", "http://localhost:80"]
+   interval: 10s
+   retries: 180
+  depends_on:
+   backend-penibilite:
+    condition: service_healthy
+  networks:
+   - demo-penibilite-network

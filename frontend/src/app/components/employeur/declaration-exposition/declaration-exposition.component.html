@@ -1,0 +1,42 @@
+<div class="dashboard">
+  <h1 class="title">Déclaration d’une exposition</h1>
+  <p class="subtitle">Saisissez les informations concernant le salarié exposé à un facteur de pénibilité.</p>
+ <form [formGroup]="expositionForm" (ngSubmit)="onSubmit()" class="exposition-form text-center">
+      <div class="form-group mb-4">
+        <input formControlName="salarie" type="text" required placeholder="Num Securite sociale" />
+      </div>
+
+      <div class="form-group mb-4">
+        <select formControlName="facteur" required>
+          <option value="" disabled selected>-- Facteur de pénibilité --</option>
+          @for (item of (listeFracteurs | async); track $index) {
+            <option value="{{item.id}}" title="{{item.description}}">{{item.id}}. {{item.libelle}}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group mb-4">
+        
+        <input id="periode" formControlName="periode" type="month" placeholder="Periode concernée" required />
+      </div>
+
+      <div class="form-group mb-4">
+        
+        <input id="duree" formControlName="duree" type="number" min="0" required placeholder="Nb jours pénibles" />
+      </div>
+
+      <button class="btn btn-primary" type="submit">Déclarer exposition</button>
+    </form>
+
+</div>
+
+@if (errorMessage) { 
+  <div  class="alert alert-danger">
+    {{ errorMessage }}<br>
+    <small>Pour la démo voici la liste  des salariés de la database par num-secu-sociale : 1234567890123, 9876543210987, 5555543210987</small>
+  </div> 
+}
+
+
+
+

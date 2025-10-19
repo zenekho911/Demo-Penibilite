@@ -1,0 +1,56 @@
+<div class="dashboard">
+  <h1 class="title">Validation des expositions</h1>
+  <p class="subtitle">Consultez les déclarations des employeurs et validez ou rejetez chaque exposition.</p>
+
+  <table class="table table-hover text-center">
+    <thead>
+      <tr>
+        
+        <th>expo-id</th>
+        <th>Date-Declaration</th>
+        <th>periode</th>
+        <th title="NUM-SECU-SOCIALE">salarie</th>
+        <th title="SIRET">employeur</th>
+        <th>code-penibilite</th>       
+        <th title="Nombre de jours pénibles de Travail pendant la periode indiquée">jours</th>
+        <th>commentaire</th>
+        <th>Action</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      @if(!(expoEnAttente | async)?.length){
+        <tr>
+        <td>Aucune Exposition n'est en attente de traitement</td>
+        
+      </tr>
+      }
+      @else {
+        @for (itemExpo of (expoEnAttente | async); track $index) {
+          <tr>
+           
+            <td>{{itemExpo.id}}</td>
+            <td><small>{{itemExpo.dateDeclaration | date:'dd-MM-yyyy HH:mm' }}</small></td>
+            <td>{{itemExpo.periode}}</td>
+            <td>{{itemExpo.salarie.numeroSecu}}</td>
+            <td>{{itemExpo.employeur.siret}}</td>
+            <td [title]="itemExpo.facteur.libelle + '\n' + itemExpo.facteur.description + '\n' + 'coefficient : ' + itemExpo.facteur.coefficient">
+                {{ itemExpo.facteur.code }}
+            </td>          
+            <td>{{itemExpo.jourPenibles}}</td>
+            <td>
+              <input type="text" #commentaireInput placeholder="commentaire agent" class="w-100">
+            </td>
+            <td>
+              <button class="btn btn-sm btn-primary me-2" (click)="valider(itemExpo.id, commentaireInput.value)">Valider</button>
+              <button class="btn btn-sm btn-danger" (click)="rejeter(itemExpo.id, commentaireInput.value)">Rejeter</button>
+            </td>
+            
+          </tr>
+        }    
+      }
+      
+     
+    </tbody>
+  </table>
+</div>

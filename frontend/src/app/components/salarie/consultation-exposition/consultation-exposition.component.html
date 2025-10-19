@@ -1,0 +1,57 @@
+<div class="dashboard">
+  <h1 class="title">Mes expositions professionnelles</h1>
+  <p class="subtitle">Consultez la liste de vos expositions déclarées par vos employeur pour le NUM-SECU-SOCIALE = {{salarie.numeroSecu}}.</p>
+
+  <table class="table table-hover text-center">
+    <thead>
+      <tr>
+        <th>Expo-ID</th>
+        <th>Employeur</th>
+        <th>Date-Declaration</th>
+        <th>Période</th>
+        <th>Facteur</th>
+        <th>Jours-Pénibles</th>
+        <th>Décision</th>
+        <th>Date-Decision</th>
+        <th>Agent</th>      
+        <th>Observation</th>  
+      </tr>
+    </thead>
+    <tbody>
+      @if(!(salarieExpositions | async)?.length){
+        <tr>pas d'expositions pour le moment</tr>
+      }
+      @else {
+        @for (itemExpo of (salarieExpositions | async); track $index) {
+          <tr>
+            <td>{{itemExpo.id}}</td>
+            <td>{{itemExpo.employeur.raisonSociale}}</td>
+            <td><small>{{itemExpo.dateDeclaration | date:'dd/MM/yyyy HH:mm' }}</small></td>
+            <td>{{itemExpo.periode}}</td>
+            <td [title]="itemExpo.facteur.libelle + '\n' + itemExpo.facteur.description + '\n' + 'coefficient : ' + itemExpo.facteur.coefficient">
+                {{ itemExpo.facteur.code }}
+            </td>
+            <td>{{itemExpo.jourPenibles}}</td>
+            <td>
+              <span class="text-muted">{{itemExpo.status}}</span>
+            </td>
+            <td>
+              <small>{{itemExpo.dateValidation | date:'dd/MM/yyyy HH:mm' }}</small>
+            </td>
+            <td>
+              <small>
+                {{itemExpo.validePar?.username}}
+              </small>
+            </td>   
+             
+            <td>
+              <small>{{itemExpo.commentaireAgent}}</small>
+            </td>    
+            
+            
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
