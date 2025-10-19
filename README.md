@@ -3,7 +3,7 @@
 **Disclaimer important**  
 Ce dépôt est un **projet personnel de démonstration**.  
 Il n'est **pas un projet officiel de quiconque organisme**.  
-Il ne contient aucune donnée réelle, ni aucun code utilisé en production dans un environnement institutionnel.  
+Il ne contient aucune donnée réelle, ni aucun code utilisé en production dans un environnement institutionnel.
 
 ---
 
@@ -23,12 +23,13 @@ les Fonctionnalités simulées sont :
 * l’utilisation d’une **architecture Spring Boot + JPA**
 * la mise en place d’**entités métiers simples** (salariés, employeurs, agents fictifs, expositions et facteurs de pénibilité)
 * l’usage de **DTO / Mappers (MapStruct)**
+* l’usage de **RestControllerAdvice** pour la gestion des exceptions
 * une **API REST sécurisée avec Keycloak** (démonstration)
 * l’intégration de **Swagger/OpenAPI** pour la documentation des endpoints
 
 ## Côté Frontend :
 
-* une application **Angular (100% standalone components)** structurée en modules
+* une application **Angular (100% standalone components)**
 * l’authentification et la gestion des rôles via **Keycloak Angular**
 * une **navigation dynamique** redirigeant les utilisateurs selon leur rôle :
 
@@ -54,8 +55,6 @@ les Fonctionnalités simulées sont :
 
 ---
 
-
-
 ## Sécurité
 
 - Sécurisation des endpoints via Keycloak (client démo configuré).  
@@ -70,15 +69,27 @@ les Fonctionnalités simulées sont :
 - une fois la commande precedente terminée, ouvrez votre navigateur et aller sur "localhost:4200" ( car pour cette démo le serveur Nginx sert le port 4200).
 - ci-dessous les credentials pour se connecter à la plateforme :
 
-	3 profils SALARIE : 
-		login : user_salarie1, user_salarie2, user_salarie3
-		password : salarie123
-	3 profils EMPLOYEUR : 
-		login : user_employeur1, user_employeur2, user_employeur3
-		password : employeur123
-	2 profils AGENT : 
-		login : user_agent1, user_agent2
-		password : agent123
+
+**Profils Salarié**
+| Login         | Mot de passe |
+| ------------- | ------------ |
+| user_salarie1 | salarie123   |
+| user_salarie2 | salarie123   |
+| user_salarie3 | salarie123   |
+
+**Profils Employeur**
+| Login           | Mot de passe |
+| --------------- | ------------ |
+| user_employeur1 | employeur123 |
+| user_employeur2 | employeur123 |
+| user_employeur3 | employeur123 |
+
+**Profils Agent**
+| Login       | Mot de passe |
+| ----------- | ------------ |
+| user_agent1 | agent123     |
+| user_agent2 | agent123     |
+
 
 
 ## Statut
