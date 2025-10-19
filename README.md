@@ -1,4 +1,4 @@
-# Demo-Service-Penibilite
+# Demo-Penibilite
 
 **Disclaimer important**  
 Ce dépôt est un **projet personnel de démonstration**.  
