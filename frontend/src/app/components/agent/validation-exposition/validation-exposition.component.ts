@@ -18,6 +18,7 @@ export class ValidationExpositionComponent implements OnInit {
 
   @Input() agent!: Agent;
   expoEnAttente: Observable<Exposition[]> = of([]);
+  messageBatch: string | null = null;
 
 
   constructor(private agentService: AgentService) { }
@@ -82,6 +83,26 @@ export class ValidationExpositionComponent implements OnInit {
       });
     }
     
+  }
+
+
+
+  lunchSalariePointsBatch(){
+
+     let confirmation = 'Lancer le traitement de calcul des points de penibilité des salariés ?';
+
+    let confirmValid = confirm(confirmation);
+
+      if (confirmValid) {
+
+         this.messageBatch = 'Batch en cours...';
+          this.agentService.salariePointsBatch().subscribe({
+      next: (response) => this.messageBatch = response,
+      error: (err) => this.messageBatch = err.message
+    });
+      }
+    
+
   }
 
 }

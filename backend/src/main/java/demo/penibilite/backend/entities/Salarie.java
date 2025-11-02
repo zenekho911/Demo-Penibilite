@@ -3,6 +3,7 @@ package demo.penibilite.backend.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -39,4 +40,8 @@ public class Salarie {
 
     @OneToMany(mappedBy = "salarie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Exposition> expositions;
+    
+    private double totalPoints;
+    
+    private LocalDateTime dateLastBatchUpdate;
 }

@@ -12,9 +12,13 @@ Il ne contient aucune donnée réelle, ni aucun code utilisé en production dans
 Ce projet a été créé **à titre purement pédagogique** afin de simuler une platefome de gestion de la pénibilité au travail.
 les Fonctionnalités simulées sont :
 
-- **Employeur** : déclaration de l’exposition d’un salarié.  
-- **Agent (fictif)** : validation/rejet d’une exposition.  
-- **Salarié** : consultation de ses expositions.  
+- **Employeur** :
+	- déclaration de l’exposition d’un salarié.  
+- **Agent (fictif)** :	
+	- validation/rejet d’une exposition.
+		- lancement du Batch de calcul de points de pénibilités.
+- **Salarié** :
+	- consultation de ses expositions et de ces points pénibilités.  
 
 ---
 
@@ -24,6 +28,7 @@ les Fonctionnalités simulées sont :
 * la mise en place d’**entités métiers simples** (salariés, employeurs, agents fictifs, expositions et facteurs de pénibilité)
 * l’usage de **DTO / Mappers (MapStruct)**
 * l’usage de **RestControllerAdvice** pour la gestion des exceptions
+* la mise en place d’**un Spring Batch Process** (itemReader, itemProcessor, itemWriter) pour le calcul des points pénibilité des salariés.
 * une **API REST sécurisée avec Keycloak** (démonstration)
 * l’intégration de **Swagger/OpenAPI** pour la documentation des endpoints
 
@@ -35,7 +40,7 @@ les Fonctionnalités simulées sont :
 
   * *Salarié* → consultation de ses expositions
   * *Employeur* → déclaration des expositions
-  * *Agent* → validation ou rejet des expositions
+  * *Agent* → validation ou rejet des expositions + lancement du batch de calcul des points pénibilité
 * une intégration avec le backend via **HttpClient** et un proxy Nginx configuré pour router les appels `/api/**`
 * un design responsive et épuré, centré sur la **simplicité d’usage et la lisibilité des données**.
 
@@ -45,6 +50,7 @@ les Fonctionnalités simulées sont :
 - Spring Boot 3  
 - Spring Data JPA (MySQL)  
 - MapStruct  
+- Spring Batch
 - Spring Security + OAuth2 (Keycloak démo)  
 - OpenAPI/Swagger UI  
 - Angular

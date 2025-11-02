@@ -3,5 +3,7 @@ export interface Salarie {
     nom: string;
     prenom: string;
     numeroSecu: string;
+    totalPoints: number;
+    dateLastBatchUpdate: string;
 
 }

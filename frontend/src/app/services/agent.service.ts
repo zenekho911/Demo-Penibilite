@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Exposition } from '../models/exposition.model';
-import { map, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Agent } from '../models/agent.model';
 import { DeciderExposition } from '../models/decider-exposition.model';
 
@@ -44,6 +44,34 @@ export class AgentService {
 
     return this.http.post<Exposition>(url, decision);
   }
+
+
+
+  // lancement du batch processing pour les points de penibilités des salariés
+   salariePointsBatch(): Observable<string> {
+    const url = `${this.host}/update-salaries-points`;
+
+    return this.http.get(url, { responseType: 'text' }).pipe(
+        catchError(this.handleError)
+      );
+
+  }
+
+
+
+   private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Erreur inconnue';
+    if (error.error instanceof ErrorEvent) {
+      // Erreur côté client
+      errorMessage = `Erreur client : ${error.error.message}`;
+    } else {
+      // Erreur côté serveur
+      errorMessage = `Erreur serveur : ${error.status} - ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
+  }
+
 
 
 

@@ -1,6 +1,13 @@
 <div class="dashboard">
   <h1 class="title">Validation des expositions</h1>
   <p class="subtitle">Consultez les déclarations des employeurs et validez ou rejetez chaque exposition.</p>
+  <br>
+  <button class="btn btn-sm btn-success" (click)="lunchSalariePointsBatch()">Lancer le batch</button>
+  @if(messageBatch){
+     <div  class="alert alert-success">
+    {{ messageBatch }}
+  </div> 
+  }
 
   <table class="table table-hover text-center">
     <thead>
@@ -21,9 +28,8 @@
     <tbody>
       @if(!(expoEnAttente | async)?.length){
         <tr>
-        <td>Aucune Exposition n'est en attente de traitement</td>
-        
-      </tr>
+          <td>Aucune Exposition de salarié n'est en attente de traitement</td>        
+        </tr>
       }
       @else {
         @for (itemExpo of (expoEnAttente | async); track $index) {

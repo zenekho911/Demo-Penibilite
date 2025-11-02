@@ -14,5 +14,7 @@ public interface IAgentService {
     public AgentDTO getByEmail(String email);
 
     public List<AgentDTO> getAll();
+    
+    public String updateSalariesPointsBatch();
 
 }

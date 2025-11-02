@@ -17,10 +17,12 @@ public class AgentController {
 
     private final IAgentService agentService;
     private final IExpositionService expositionService;
+    
 
     public AgentController(IAgentService agentService, IExpositionService expositionService) {
         this.agentService = agentService;
         this.expositionService = expositionService;
+       
     }
 
     @PostMapping
@@ -43,5 +45,12 @@ public class AgentController {
     		@RequestBody ValidationExpositionRequest request) {
         return expositionService.validerExposition(expositionId, request.getAgentId(), request.isValide(), request.getCommentaire());
     }
+        
+    @GetMapping("/update-salaries-points")
+    public String batchToUpdateSalariesPoints() {
+        return this.agentService.updateSalariesPointsBatch();    
+    }
+    
+    
 }
 

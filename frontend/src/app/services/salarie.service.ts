@@ -73,7 +73,9 @@ export class SalarieService {
       id: salarieDTO.id,
       nom: salarieDTO.nom,
       prenom: salarieDTO.prenom,
-      numeroSecu: salarieDTO.numeroSecu
+      numeroSecu: salarieDTO.numeroSecu,
+      totalPoints: salarieDTO.totalPoints,
+      dateLastBatchUpdate: salarieDTO.dateLastBatchUpdate
 
     };
   }

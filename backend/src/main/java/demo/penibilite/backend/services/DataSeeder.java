@@ -7,6 +7,7 @@ import demo.penibilite.backend.dao.*;
 import demo.penibilite.backend.entities.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 public class DataSeeder implements CommandLineRunner {
@@ -40,6 +41,8 @@ public class DataSeeder implements CommandLineRunner {
 				.email("j.dupont@salarie.test")
 				.telephone("0712345678")
 				.dateNaissance(LocalDate.ofYearDay(1971, 218))
+				.totalPoints(0)
+				.dateLastBatchUpdate(LocalDateTime.now())
 				.build();
         Salarie salarie2 = Salarie.builder()
                 .username("user_salarie2")
@@ -49,6 +52,8 @@ public class DataSeeder implements CommandLineRunner {
 				.email("f.dupont@salarie.test")
 				.telephone("0698765432")
 				.dateNaissance(LocalDate.ofYearDay(1987, 300))
+				.totalPoints(0)
+				.dateLastBatchUpdate(LocalDateTime.now())
 				.build();
 		Salarie salarie3 = Salarie.builder()
                 .username("user_salarie3")
@@ -58,6 +63,8 @@ public class DataSeeder implements CommandLineRunner {
 				.email("h.dupont@salarie.test")
 				.telephone("0645685212")
 				.dateNaissance(LocalDate.ofYearDay(1969, 115))
+				.totalPoints(0)
+				.dateLastBatchUpdate(LocalDateTime.now())
 				.build();
         salarieRepository.save(salarie1);
         salarieRepository.save(salarie2);

@@ -1,5 +1,7 @@
 package demo.penibilite.backend.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,4 +16,6 @@ public class SalarieDTO {
     private String nom;
     private String prenom;
     private String numeroSecu; // optionnel à exposer selon besoin
+    private double totalPoints;
+    private LocalDateTime dateLastBatchUpdate;
 }

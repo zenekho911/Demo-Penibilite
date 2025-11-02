@@ -1,7 +1,10 @@
 <div class="dashboard">
-  <h1 class="title">Mes expositions professionnelles</h1>
-  <p class="subtitle">Consultez la liste de vos expositions déclarées par vos employeur pour le NUM-SECU-SOCIALE = {{salarie.numeroSecu}}.</p>
-
+  <h2 class="title">Expositions professionnelles du salarié</h2>
+   
+  <p class="subtitle">NUM-SECU-SOCIALE = {{salarie.numeroSecu}}</p>
+  <p class="subtitle">MAJ-CALCUL-POINTS = {{salarie.dateLastBatchUpdate | date:'dd-MM-yyyy HH:mm'}}</p>
+  <p class="subtitle">POINTS-PENIBILITE = <strong>{{salarie.totalPoints}}</strong></p>
+  
   <table class="table table-hover text-center">
     <thead>
       <tr>
@@ -26,7 +29,7 @@
           <tr>
             <td>{{itemExpo.id}}</td>
             <td>{{itemExpo.employeur.raisonSociale}}</td>
-            <td><small>{{itemExpo.dateDeclaration | date:'dd/MM/yyyy HH:mm' }}</small></td>
+            <td><small>{{itemExpo.dateDeclaration | date:'dd-MM-yyyy HH:mm' }}</small></td>
             <td>{{itemExpo.periode}}</td>
             <td [title]="itemExpo.facteur.libelle + '\n' + itemExpo.facteur.description + '\n' + 'coefficient : ' + itemExpo.facteur.coefficient">
                 {{ itemExpo.facteur.code }}
@@ -36,7 +39,7 @@
               <span class="text-muted">{{itemExpo.status}}</span>
             </td>
             <td>
-              <small>{{itemExpo.dateValidation | date:'dd/MM/yyyy HH:mm' }}</small>
+              <small>{{itemExpo.dateValidation | date:'dd-MM-yyyy HH:mm' }}</small>
             </td>
             <td>
               <small>
